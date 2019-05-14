@@ -1,4 +1,4 @@
-package com.awesome.AwesomeProject.services.serviceImpl;
+package com.awesome.AwesomeProject.services;
 
 import com.awesome.AwesomeProject.models.User;
 import com.awesome.AwesomeProject.repositories.RoleRepository;
