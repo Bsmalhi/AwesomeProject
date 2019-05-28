@@ -1,0 +1,42 @@
+version: '3'
+services:
+  nginx:
+    container_name: awesome-nginx
+    image: nginx:1.16
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - awesome
+
+  mysql:
+    container_name: awesome-mysql
+    image: mysql/mysql-server:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: awesome
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - my-datavolume:/var/lib/mysql
+
+  awesome:
+    restart: always
+    build: .
+    working_dir: /AwesomeProject
+    volumes:
+      - .:/AwesomeProject
+      - ~/.m2:/root/.m2
+    expose:
+      - "5000"
+    command: mvn clean spring-boot:run
+    depends_on:
+      - mysql
+
+volumes:
+  my-datavolume:
